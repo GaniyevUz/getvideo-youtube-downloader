@@ -1,11 +1,7 @@
 import re
 
 from httpx import AsyncClient
-
 from root.settings import API_KEY
-
-
-# from pytube import extract
 
 
 def humanbytes(size):
