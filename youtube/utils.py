@@ -2,9 +2,10 @@ import re
 
 from httpx import AsyncClient
 
-# from pytube import extract
+from root.settings import API_KEY
 
-API_KEY = ''
+
+# from pytube import extract
 
 
 def humanbytes(size):
@@ -26,7 +27,6 @@ def video_id(url):
     matches = re.search(regex, url)
 
     return matches.group(matches.lastindex)
-
 
 
 async def get_channel_data(channel_id):
