@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+<head>
+    <title>GetVideo - Download online video to your device</title>
+    <meta name="description"
+          content="This online service helps download videos from many websites. It's free, secure, has no ads. Save online video, convert to mp3, etc. ">
+    <link rel="canonical" href="index.html">
+    <link rel="alternate" href="index.html" hreflang="x-default"/>
+    <link rel="alternate" href="index.html" hreflang="en"/>
+    <link rel="alternate" href="ru/index.html" hreflang="ru"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:image" content="{% static 'img/getvideo-tv.png' %}"/>
+    <link type="image/png" rel="shortcut" href="{% static 'img/getvideo-tv.png' %}">
+    <link type="image/ico" rel="icon" href="{% static 'favicon.ico' %}">
+    <meta name="robots" content="all,index,follow">
+    {#    <link rel="preconnect" href="https://code.jquery.com/">#}
+    {#    <link rel="preconnect" href="https://cdnjs.cloudflare.com/">#}
+    {#    <link rel="preconnect" href="https://stackpath.bootstrapcdn.com/">#}
+    {#    <link rel="preconnect" href="https://www.googletagmanager.com/">#}
+    {#    <link rel="preconnect" href="https://fonts.googleapis.com/">#}
+    {#    <link rel="preconnect" href="https://www.google-analytics.com/">#}
+    {#    <link rel="preconnect" href="https://fonts.gstatic.com/">#}
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    {#    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"#}
+    {#            integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>#}
+    <link type="text/css" href="{% static 'assets/css/argon.min.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'css/default.css' %}" rel="stylesheet">
+
+</head>
+<body id="page-top" class="bg-gradient-dark">
+<header class="header-global">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-md navbar-dark navbar-transparent">
+        <div class="container">
+            <a class="navbar-brand mr-lg-5" href="index.html">
+                <img src="{% static 'img/getvideo-tv-long-bright.png' %}" alt="Getvideo.tv - Download online video">
+            </a>
+        </div>
+    </nav>
+</header>
+
+
+<main>
+
+    <div class="position-relative">
+        <section class="section section-lg bg-gradient-dark text-muted shad">
+            <div class="container d-flex align-items-center pt-sm pb-sm text-center">
+                <div class="col px-0 text-center">
+                    <h1 class="my-0 text-truncate h1-resp shad">Getvideo.ga - Download online video</h1>
+                    <h2 class="my-0 text-truncate h2-resp text-muted">
+                        Get video. Download & save to your device. Convert
+                        to mp3.
+                    </h2>
+                </div>
+            </div>
+            <div class="container text-muted">
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <form id="form1" action="{% url 'download' %}" method="POST" class="mb-3 mx-5">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="input-group border border-double border-dark shadow">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-0"><i class="fa fa-search"></i></span>
+                                    </div>
+                                    <input id="dlURL" name="url"
+                                           class="form-control form-control-lg border-0 g-recaptcha"
+                                           placeholder="Insert video URL (starts with https://)" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit" id="dlBTN1">
+                                            <i class="fa fa-download"></i>
+                                            <span class="d-none d-md-inline"> Download</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="text-center my-0">You can use your own URL, just paste it into the box and hit the
+                            download button.<br>Or you can search YouTube using out smart-suggestions search box.
+                            <br><span style="cursor:pointer;" class="text-underline lead" id="top20button">Top 25 videos for those with no imagination</span>
+                        </p>
+                    </div>
+                </div>
+                <div class=row>
+                    <div class="col-12 text-center mt-5">
+                        <h2 class="h3-resp shad mb-3">How to get video to your device as mp4 (or mp3 audio) file?</h2>
+                    </div>
+                    <li class="col-md-4 d-block">
+                        <strong>STEP 1:</strong> copy video page URL address to your device
+                        clipboard. Nowadays, it's easy to find said URL via social share button, then copy link option.
+                    </li>
+                    <li class="col-md-4 d-block">
+                        <strong>STEP 2:</strong> open GetVideo, click in the search box and
+                        paste URL into that box. Hit download button and wait a few moments while we scan the video
+                        page.
+                    </li>
+                    <li class="col-md-4 d-block">
+                        <strong>STEP 3:</strong> when video download options show up, pick the
+                        right size and quality and download as mp4 file or convert to mp3 (only if option is there).
+                    </li>
+                </div>
+            </div>
+
+        </section>
+    </div>
+    {% block content %}
+
+    {% endblock %}
+    {% include 'youtube/footer.html' %}
+</main>
+</body>
