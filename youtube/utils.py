@@ -1,6 +1,7 @@
 import re
 
 from httpx import AsyncClient
+
 from root.settings import API_KEY
 
 
