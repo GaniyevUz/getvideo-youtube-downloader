@@ -1,6 +1,6 @@
 import re
-
 from httpx import AsyncClient
+from pytube import YouTube
 
 from root.settings import API_KEY
 
@@ -61,28 +61,26 @@ async def get_video_data(video_url):
             url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics'
             data = {'id': video_id(video_url), 'key': API_KEY}
             r = await client.get(url, params=data)
-            dl = f'https://onlinevideoconverter.pro/api/convert?url={video_url}'
-            payload = {'url': video_url, 'extension': 'mp3'}
-            dl_data = await client.post(dl, data=payload)
-
-            if r.status_code != 200 or dl_data.status_code != 200:
+            yt = YouTube(video_url)
+            stream = yt.streams.filter()
+            if r.status_code != 200:
                 return False
 
             video = r.json()['items'][0]
-            if dl_data.status_code == 200:
-                downloads = {'video': [], 'audio': []}
-                for item in dl_data.json()['url']:
-                    dl = {
-                        'type': item.get('attr').get('title'),
-                        'quality': item.get('quality'),
-                        'filesize': humanbytes(item.get('filesize')),
-                        'url': item.get('url'),
-                        'format': item.get('name')
-                    }
-                    if not item['audio']:
-                        downloads['video'].append(dl)
-                    else:
-                        downloads['audio'].append(dl)
+            downloads = {'video': [], 'audio': []}
+            for item in stream:
+                dl = {
+                    'type': item.subtype,
+                    'quality': item.resolution,
+                    'filesize': humanbytes(item.filesize),
+                    'url': item.url,
+                    'format': item.subtype
+                }
+                if item.type == 'video':
+                    downloads['video'].append(dl)
+                else:
+                    dl['quality'] = item.abr
+                    downloads['audio'].append(dl)
         return {
             'title': video['snippet'].get('title'),
             'channelId': video['snippet'].get('channelId'),
@@ -90,13 +88,13 @@ async def get_video_data(video_url):
             'keywords': video['snippet'].get('keywords'),
             'publishedAt': video['snippet'].get('publishedAt').replace('T', ' ').replace('Z', ' '),
             'duration': video['contentDetails'].get('duration').replace('M', 'M ').replace('PT', ''),
-            'thumbnail_url': dl_data.json()['thumb'],
+            'thumbnail_url': yt.thumbnail_url,
             'tags': video['snippet'].get('tags'),
             'categoryId': video['snippet'].get('categoryId'),
             'viewCount': video['statistics'].get('viewCount'),
             'likeCount': video['statistics'].get('likeCount'),
             'commentCount': video['statistics'].get('commentCount'),
-            'count': len(dl_data.json()['url']),
+            'count': len(stream),
             'downloads': downloads
         }
     except KeyError:
