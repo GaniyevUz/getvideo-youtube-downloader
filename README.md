@@ -1,2 +1,2 @@
 # getvideo-youtube-downloader
-simple youtube downloader website written in django framework
+simple YouTube downloader website written in django framework
