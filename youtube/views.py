@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from youtube.utils import get_video_data
 
 
-# Create your views here.
 def index(request):
     return render(request, 'youtube/index.html')
 
